@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node cli.js ../openzeppelin-solidity ../openzeppelin-solidity/docs true"
   },
+  "bin": {"solidoc": "cli.js"},
   "keywords": ["solidity", "natspec", "documentation", "documentation-tool", "documentation-generator", "markdown", "ethereum", "eth", "ethereum classic", "etc", "tron", "tronix", "trx", "qtum", "wanchain", "aeternity", "counterparty", "rootstock", "ubiq", "monax"],
   "author": "Binod Nirvan",
   "license": "Apache-2.0",

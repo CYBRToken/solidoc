@@ -17,7 +17,7 @@ This command-line utility creates markdown-based documentation for your Solidity
 ## Getting Started
 
 ```
-npm install solidoc
+npm install solidoc -g
 ```
 
 **CLI Arguments**
