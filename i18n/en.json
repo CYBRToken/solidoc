@@ -1,0 +1,22 @@
+﻿{
+  "Enums": "Enums",
+  "Functions": "Functions",
+  "Arguments": "Arguments",
+  "Modifiers": "Modifiers",
+  "Structs": "Structs",
+  "Constructor": "Constructor",
+  "Returns": "Returns",
+  "ContractMembers": "Contract Members",
+  "ConstantsAndVariables": "Constants & Variables",
+  "VisibilityMembers": "//%s members",
+  "OverridesSuperFunction": "overrides %s",
+  "InvalidCommand": "Invalid command ->  %s",
+  "InvalidDirectory": "Invalid directory ->  %s",
+  "WritingPath": "Writing %s",
+  "Events": "Events",
+  "DerivedContracts": "↘ Derived Contracts: %s",
+  "References": "References: %s",
+  "Overridden": "⤿ Overridden Implementation(s): ",
+  "Extends": "↗ Extends: %s",
+  "ParsingPath": "Parsing: %s"
+}
