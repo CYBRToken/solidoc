@@ -4,7 +4,7 @@
 const path = require("path");
 const resolve = require("path").resolve;
 const fs = require("fs-extra");
-const compiler = require("./utils/truffle-compiler");
+const compiler = require("./utils/compiler");
 const pino = require("pino");
 const parser = require("./parser");
 const generator = require("./generator");
@@ -27,23 +27,44 @@ if(args.length > 6) {
   return;
 }
 
-const pathToRoot = resolve(args[2]);
-const outputPath = resolve(args[3]);
-const noCompilation = (args[4] || "").toLowerCase().startsWith("t");
+function getConfig() {
+  function readConfig() {
+    const file = path.join(process.cwd(), "solidoc.json");
 
-if(!pathToRoot) {
+    if(!fs.pathExistsSync(file)) {
+      return {};
+    }
+
+    const contents = fs.readFileSync(file);
+    const config = JSON.parse(contents.toString());
+
+    return config;
+  };
+
+  var config = readConfig();
+
+  if(args.length > 2) {
+    config.pathToRoot = resolve(args[2]);
+    config.outputPath = resolve(args[3]);
+    config.noCompilation = (args[4] || "").toLowerCase().startsWith("t");
+    config.language = args[5] || "en";
+  }
+
+  return config;
+}
+
+const config = getConfig();
+global.config = config;
+
+if(!config.pathToRoot) {
   logger.error("Path to truffle project root was not specified.");
   return;
 }
 
-const buildDirectory = path.join(pathToRoot, "build");
+const buildDirectory = path.join(config.pathToRoot, "build");
 
-logger.debug("Path to root: %s.", pathToRoot);
-logger.debug("Output path: %s.", outputPath);
-logger.debug("Require recompilation: %s.", noCompilation);
-
-if(!fs.existsSync(pathToRoot)) {
-  logger.error("Invalid directory: %s.", pathToRoot);
+if(!fs.existsSync(config.pathToRoot)) {
+  logger.error("Invalid directory: %s.", config.pathToRoot);
   return;
 }
 
@@ -53,25 +74,20 @@ function begin() {
     return;
   }
 
-  if(!fs.existsSync(outputPath)) {
+  if(!fs.existsSync(config.outputPath)) {
     logger.info("Create the directory for the output path: %s.");
-    fs.mkdirSync(outputPath);
+    fs.mkdirSync(config.outputPath);
   }
 
-  global.pathToRoot = pathToRoot;
-  global.outputPath = outputPath;
-  global.noCompilation = noCompilation;
-  global.language = args[5] || "en";
-
   const contracts = parser.parse(buildDirectory);
-  generator.serialize(contracts, outputPath);
+  generator.serialize(contracts, config.outputPath);
 }
 
-if(!noCompilation) {
+if(!config.noCompilation) {
   fs.removeSync(buildDirectory);
 
   logger.info("Removed %s.", buildDirectory);
-  compiler.compile(pathToRoot, begin);
+  compiler.compile(config.pathToRoot, begin);
   return;
 }
 

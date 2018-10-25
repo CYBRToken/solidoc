@@ -4,7 +4,19 @@ const path = require("path");
 const fs = require("fs-extra");
 
 function read(fileName) {
-  const contents = fs.readFileSync(path.join(__dirname, "..", "templates", fileName));
+  function getPath() {
+    const file = path.join(__dirname, "..", "templates", fileName);
+    const override = path.join(process.cwd(), ".solidoc", "templates", fileName);
+
+    if(fs.existsSync(override)) {
+      return override;
+    };
+
+    return file;
+  }
+
+  const file = getPath();
+  const contents = fs.readFileSync(file);
   return contents.toString();
 }
 

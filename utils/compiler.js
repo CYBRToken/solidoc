@@ -11,7 +11,9 @@ module.exports = {
   compile: function(pathToRoot, callback) {
     logger.info("Compiling %s", pathToRoot);
 
-    const process = exec("truffle compile", {
+    const command = global.config.compiler || "truffle compile";
+
+    const process = exec(command, {
       cwd: pathToRoot
     });
 

@@ -37,8 +37,8 @@ module.exports = {
 
     function getContractPath() {
       const sourcePath = contract.sourcePath;
-      const relation = relative(global.outputPath, global.pathToRoot);
-      const file = sourcePath.replace(global.pathToRoot, "");
+      const relation = relative(global.config.outputPath, global.config.pathToRoot);
+      const file = sourcePath.replace(global.config.pathToRoot, "");
       const link = `[${file.replace(/^\/|\/$/g, "")}](${path.join(relation, file)})`;
 
       return util.format(i18n.translate("ViewSource"), link);

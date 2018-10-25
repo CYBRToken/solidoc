@@ -8,8 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/index.js",
-      "args": ["../vesting-schedule", "../vesting-schedule/docs", "true"]
+      "program": "${workspaceFolder}/cli.js",
     }
   ]
 }

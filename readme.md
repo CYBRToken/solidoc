@@ -56,6 +56,37 @@ npm run docgen
 
 Do not use recompilation (third argument) if you are using this on a non truffle project.
 
+## Configuration File
+
+Alternatively, you can create `solidoc.json` configuration file in your project root.
+
+```json
+{
+  "pathToRoot": "./",
+  "outputPath": "./docs",
+  "noCompilation": true,
+  "compiler": "truffle compile",
+  "language": "en"
+}
+```
+
+and then call `solidoc` instead of passing any command line argument.
+
+
+## Overrides
+
+If you wish to change bits and pieces of the documentation generated, place `solidoc templates` on the following directory:
+
+`./.solidoc/templates/`
+
+[Solidoc Templates](templates)
+
+
+You can also override language literals by copying and editing `i18n` files on the following path:
+
+`./.solidoc/i18n/`
+
+
 
 ## Before You Try
 
