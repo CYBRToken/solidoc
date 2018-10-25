@@ -4,7 +4,7 @@
   "description": "Solidity Documentation Generator",
   "main": "cli.js",
   "scripts": {
-    "start": "node cli.js ../openzeppelin-solidity ../openzeppelin-solidity/docs true"
+    "start": "node cli.js ../openzeppelin-solidity ../openzeppelin-solidity/docs false"
   },
   "bin": {
     "solidoc": "cli.js"

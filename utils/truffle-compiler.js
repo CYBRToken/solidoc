@@ -8,7 +8,7 @@ const logger = pino({
 });
 
 module.exports = {
-  compile: function(pathToRoot) {
+  compile: function(pathToRoot, callback) {
     logger.info("Compiling %s", pathToRoot);
 
     const process = exec("truffle compile", {
@@ -16,15 +16,17 @@ module.exports = {
     });
 
     process.stdout.on("data", function(data) {
-      console.log("stdout: " + data);
+      console.log(data);
     });
 
     process.stderr.on("data", function(data) {
-      console.log("stdout: " + data);
+      logger.warn(data);
     });
 
-    process.on("close", function(code) {
-      console.log("closing code: " + code);
+    process.on("close", function() {
+      if(typeof (callback) === "function") {
+        callback();
+      }
     });
   }
 };

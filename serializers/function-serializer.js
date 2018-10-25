@@ -31,7 +31,17 @@ module.exports = {
 
     const definitionList = [];
     const functionList = enumerable.from(functionNodes).select(function(x) {
-      return `- [${x.name}](#${x.name.toLowerCase()})`;
+      const parameters = x.parameters.parameters || [];
+      const parameterList = [];
+
+      for(let i in parameters) {
+        const parameter = parameters[i];
+        const argumentName = parameter.name;
+        const dataType = parameter.typeDescriptions.typeString.replace("contract ", "");
+        parameterList.push(`${dataType} ${argumentName}`);
+      }
+
+      return `- [${x.name}(${parameterList.join(", ")})](#${x.name.toLowerCase()})`;
     }).toArray();
 
     template = template.replace("{{FunctionTitle}}", i18n.translate("Functions"));

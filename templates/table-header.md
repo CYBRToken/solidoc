@@ -1,2 +1,2 @@
-﻿| Name        | Type           | Description  |
+| Name        | Type           | Description  |
 | ------------- |------------- | -----|

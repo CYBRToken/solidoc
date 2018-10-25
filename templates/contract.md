@@ -1,4 +1,6 @@
-﻿# {{ContractTitle}}
+# {{ContractTitle}}
+
+{{ContractPath}}
 
 {{ContractInheritancePath}}
 {{ContractImplementations}}

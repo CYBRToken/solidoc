@@ -1,4 +1,4 @@
-﻿{{ModifierNameHeading}}
+{{ModifierNameHeading}}
 
 {{ModifierDescription}}
 
