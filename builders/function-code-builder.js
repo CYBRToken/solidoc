@@ -64,13 +64,7 @@ module.exports = {
 
     builder.push(node.visibility.toLowerCase());
 
-    if(node.payable) {
-      builder.push(" payable");
-    }
-
-    if(["nonpayable", ""].indexOf(node.stateMutability) >= 0) {
-      builder.push(` ${node.StateMutability}`);
-    }
+    builder.push(` ${node.stateMutability}`);
 
     if(modifierList && modifierList.length) {
       builder.push(` ${modifierList.join(" ")} `);

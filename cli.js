@@ -20,13 +20,6 @@ const logger = pino({
     3. Do not recompile. Optional, default: false.
     4. Language. Optional, default: en.
 *************************************************************************************************/
-const args = process.argv;
-
-if(args.length > 6) {
-  logger.error(`Invalid command ${process.argv.join(" ")}`);
-  return;
-}
-
 function getConfig() {
   function readConfig() {
     const file = path.join(process.cwd(), "solidoc.json");
@@ -42,13 +35,22 @@ function getConfig() {
   };
 
   var config = readConfig();
+  const args = process.argv;
+
+  if(args.length > 6) {
+    logger.error(`Invalid command ${process.argv.join(" ")}`);
+    return;
+  }
 
   if(args.length > 2) {
-    config.pathToRoot = resolve(args[2]);
-    config.outputPath = resolve(args[3]);
+    config.pathToRoot = args[2];
+    config.outputPath = args[3];
     config.noCompilation = (args[4] || "").toLowerCase().startsWith("t");
     config.language = args[5] || "en";
   }
+
+  config.pathToRoot = resolve(config.pathToRoot);
+  config.outputPath = resolve(config.outputPath);
 
   return config;
 }

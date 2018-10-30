@@ -1,7 +1,7 @@
 {
   "pathToRoot": "../openzeppelin-solidity",
   "outputPath": "../openzeppelin-solidity/docs",
-  "noCompilation": false,
+  "noCompilation": true,
   "compiler": "truffle compile",
   "language": "en"
 }
