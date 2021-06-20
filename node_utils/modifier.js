@@ -1,28 +1,29 @@
-"use strict";
-const enumerable = require("linq");
+const enumerable = require('linq')
 
-module.exports = {
-  getModifiers: function(contract) {
-    let modifiers = [];
+const getModifiers = (contract) => {
+  let modifiers = []
 
-    const nodes = enumerable.from(contract.ast.nodes).where(function(x) {
-      return x.nodes;
-    }).toArray();
+  const nodes = enumerable.from(contract.ast.nodes).where(function (x) {
+    return x.nodes
+  }).toArray()
 
-    for(let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
 
-      if(node.nodeType == "ModifierDefinition") {
-        modifiers.push(node);
-      }
-
-      const candidates = enumerable.from(node.nodes).where(function(x) {
-        return x.nodeType === "ModifierDefinition";
-      }).toArray();
-
-      modifiers = modifiers.concat(candidates);
+    if (node.nodeType === 'ModifierDefinition') {
+      modifiers.push(node)
     }
 
-    return modifiers;
+    const candidates = enumerable.from(node.nodes).where(function (x) {
+      return x.nodeType === 'ModifierDefinition'
+    }).toArray()
+
+    modifiers = modifiers.concat(candidates)
   }
-};
+
+  return modifiers
+}
+
+module.exports = {
+  getModifiers
+}

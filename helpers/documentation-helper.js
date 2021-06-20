@@ -1,22 +1,24 @@
-"use strict";
+const getText = (x) => typeof (x) === 'object' ? x.text : x || ''
 
-module.exports = {
-  get: function(contents, key) {
-    contents = contents || "";
-    const members = contents.split("@");
+const get = (contents, key) => {
+  const text = getText(contents)
 
-    for(let i in members) {
-      const entry = members[i];
+  const members = text.split('@')
 
-      if(entry.startsWith(key)) {
-        return entry.substr(key.length, entry.length - key.length).trim();
-      }
+  for (const i in members) {
+    const entry = members[i]
+
+    if (entry.startsWith(key)) {
+      return entry.substr(key.length, entry.length - key.length).trim()
     }
-
-    return "";
-  },
-  getNotice: function(contents) {
-    const title = this.get(contents, "notice");
-    return title || this.get(contents, "dev");
   }
-};
+
+  return ''
+}
+
+const getNotice = (contents) => {
+  const title = get(contents, 'notice')
+  return title || get(contents, 'dev')
+}
+
+module.exports = { get, getNotice }

@@ -1,0 +1,12 @@
+{
+  "editor.tabSize": 2,
+  "editor.foldingStrategy": "indentation",
+  "editor.wrappingIndent": "indent",
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.autoIndent": "none",
+  "editor.formatOnSave": false,
+  "editor.formatOnSaveMode": "file",
+  "standard.autoFixOnSave": true,
+  "javascript.suggestionActions.enabled": false
+}

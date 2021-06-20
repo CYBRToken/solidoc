@@ -1,13 +1,11 @@
-"use strict";
+const serialize = (_contract, template, _contracts) => {
+  const now = new Date()
 
-module.exports = {
-  serialize: function(contract, template) {
-    const now = new Date();
+  template = template.replace('{{Time}}', now.toTimeString())
+  template = template.replace('{{Date}}', now.toISOString())
+  template = template.replace('{{CurrentDirectory}}', process.env.PWD)
 
-    template = template.replace("{{Time}}", now.toTimeString());
-    template = template.replace("{{Date}}", now.toISOString());
-    template = template.replace("{{CurrentDirectory}}", process.env.PWD);
+  return template
+}
 
-    return template;
-  }
-};
+module.exports = { serialize }
