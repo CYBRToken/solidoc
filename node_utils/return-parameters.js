@@ -1,7 +1,7 @@
-"use strict";
+const getReturnParameters = (node) => {
+  return node.returnParameters.parameters
+}
 
 module.exports = {
-  getReturnParameters: function(node) {
-    return node.returnParameters.parameters;
-  }
-};
+  getReturnParameters
+}

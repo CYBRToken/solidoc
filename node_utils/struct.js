@@ -1,28 +1,29 @@
-"use strict";
-const enumerable = require("linq");
+const enumerable = require('linq')
 
-module.exports = {
-  getStructs: function(contract) {
-    let structs = [];
+const getStructs = (contract) => {
+  let structs = []
 
-    const nodes = enumerable.from(contract.ast.nodes).where(function(x) {
-      return x.nodes;
-    }).toArray();
+  const nodes = enumerable.from(contract.ast.nodes).where(function (x) {
+    return x.nodes
+  }).toArray()
 
-    for(let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]
 
-      if(node.nodeType == "StructDefinition") {
-        structs.push(node);
-      }
-
-      const candidates = enumerable.from(node.nodes).where(function(x) {
-        return x.nodeType === "StructDefinition";
-      }).toArray();
-
-      structs = structs.concat(candidates);
+    if (node.nodeType === 'StructDefinition') {
+      structs.push(node)
     }
 
-    return structs;
+    const candidates = enumerable.from(node.nodes).where(function (x) {
+      return x.nodeType === 'StructDefinition'
+    }).toArray()
+
+    structs = structs.concat(candidates)
   }
-};
+
+  return structs
+}
+
+module.exports = {
+  getStructs
+}

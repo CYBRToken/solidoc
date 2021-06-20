@@ -1,28 +1,28 @@
-"use strict";
-const nodeHelper = require("../helpers/node-helper");
-const enumBuilder = require("../builders/enum-builder");
-const i18n = require("../i18n");
 
-module.exports = {
-  serialize: function(contract, template) {
-    const builder = [];
+const nodeHelper = require('../helpers/node-helper')
+const enumBuilder = require('../builders/enum-builder')
+const i18n = require('../i18n')
 
-    const nodes = nodeHelper.getEnumerators(contract);
+const serialize = (contract, template, _contracts) => {
+  const builder = []
 
-    if(!nodes || !nodes.length) {
-      return template.replace("{{Enumerators}}", "");
-    }
+  const nodes = nodeHelper.getEnumerators(contract)
 
-    builder.push(`**${i18n.translate("Enums")}**`);
-    builder.push("\n");
-
-    for(let i in nodes) {
-      const node = nodes[i];
-      builder.push(enumBuilder.build(node));
-    }
-
-    template = template.replace("{{Enumerators}}", builder.join(""));
-
-    return template;
+  if (!nodes || !nodes.length) {
+    return template.replace('{{Enumerators}}', '')
   }
-};
+
+  builder.push(`**${i18n.translate('Enums')}**`)
+  builder.push('\n')
+
+  for (const i in nodes) {
+    const node = nodes[i]
+    builder.push(enumBuilder.build(node))
+  }
+
+  template = template.replace('{{Enumerators}}', builder.join(''))
+
+  return template
+}
+
+module.exports = { serialize }

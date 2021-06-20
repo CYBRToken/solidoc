@@ -1,21 +1,21 @@
-"use strict";
-const nodeHelper = require("../helpers/node-helper");
-const eventBuilder = require("../builders/event-builder");
 
-module.exports = {
-  serialize: function(contract, template) {
-    const builder = [];
+const nodeHelper = require('../helpers/node-helper')
+const eventBuilder = require('../builders/event-builder')
 
-    const nodes = nodeHelper.getEvents(contract);
+const serialize = (contract, template, _contracts) => {
+  const builder = []
 
-    if(!nodes || !nodes.length) {
-      return template.replace("{{Events}}", "");
-    }
+  const nodes = nodeHelper.getEvents(contract)
 
-    builder.push(eventBuilder.build(nodes));
-
-    template = template.replace("{{Events}}", builder.join(""));
-
-    return template;
+  if (!nodes || !nodes.length) {
+    return template.replace('{{Events}}', '')
   }
-};
+
+  builder.push(eventBuilder.build(nodes))
+
+  template = template.replace('{{Events}}', builder.join(''))
+
+  return template
+}
+
+module.exports = { serialize }

@@ -1,7 +1,9 @@
 {
-  "pathToRoot": "../openzeppelin-solidity",
-  "outputPath": "../openzeppelin-solidity/docs",
+  "pathToRoot": "../protocol",
+  "outputPath": "../protocol/docs",
   "noCompilation": true,
   "compiler": "truffle compile",
-  "language": "en"
+  "language": "en",
+  "rootContract": "Protobase",
+  "readMe": "../protocol/readme.md"
 }

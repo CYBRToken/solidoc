@@ -1,17 +1,18 @@
 #!/usr/bin/env node
-"use strict";
 
-const path = require("path");
-const resolve = require("path").resolve;
-const fs = require("fs-extra");
-const compiler = require("./utils/compiler");
-const pino = require("pino");
-const parser = require("./parser");
-const generator = require("./generator");
+
+const path = require('path')
+const resolve = require('path').resolve
+const fs = require('fs-extra')
+const compiler = require('./utils/compiler')
+const pino = require('pino')
+const parser = require('./parser')
+const generator = require('./generator')
+const readMe = require('./helpers/readme-helper')
 
 const logger = pino({
   prettyPrint: true
-});
+})
 
 /***********************************************************************************************
     Arguments:
@@ -20,77 +21,83 @@ const logger = pino({
     3. Do not recompile. Optional, default: false.
     4. Language. Optional, default: en.
 *************************************************************************************************/
-function getConfig() {
-  function readConfig() {
-    const file = path.join(process.cwd(), "solidoc.json");
+function getConfig () {
+  function readConfig () {
+    const file = path.join(process.cwd(), 'solidoc.json')
 
-    if(!fs.pathExistsSync(file)) {
-      return {};
+    if (!fs.pathExistsSync(file)) {
+      return {}
     }
 
-    const contents = fs.readFileSync(file);
-    const config = JSON.parse(contents.toString());
+    const contents = fs.readFileSync(file)
+    const config = JSON.parse(contents.toString())
 
-    return config;
+    return config
   };
 
-  var config = readConfig();
-  const args = process.argv;
+  const config = readConfig()
+  const args = process.argv
 
-  if(args.length > 6) {
-    logger.error(`Invalid command ${process.argv.join(" ")}`);
-    return;
+  if (args.length > 6) {
+    logger.error(`Invalid command ${process.argv.join(' ')}`)
+    return
   }
 
-  if(args.length > 2) {
-    config.pathToRoot = args[2];
-    config.outputPath = args[3];
-    config.noCompilation = (args[4] || "").toLowerCase().startsWith("t");
-    config.language = args[5] || "en";
+  if (args.length > 2) {
+    config.pathToRoot = args[2]
+    config.outputPath = args[3]
+    config.noCompilation = (args[4] || '').toLowerCase().startsWith('t')
+    config.language = args[5] || 'en'
   }
 
-  config.pathToRoot = resolve(config.pathToRoot);
-  config.outputPath = resolve(config.outputPath);
+  config.pathToRoot = resolve(config.pathToRoot)
+  config.outputPath = resolve(config.outputPath)
 
-  return config;
+  return config
 }
 
-const config = getConfig();
-global.config = config;
+const config = getConfig()
+global.config = config
 
-if(!config.pathToRoot) {
-  logger.error("Path to truffle project root was not specified.");
-  return;
+if (!config.pathToRoot) {
+  logger.error('Path to truffle project root was not specified.')
+  return
 }
 
-const buildDirectory = path.join(config.pathToRoot, "build");
+const buildDirectory = path.join(config.pathToRoot, 'build')
 
-if(!fs.existsSync(config.pathToRoot)) {
-  logger.error("Invalid directory: %s.", config.pathToRoot);
-  return;
+if (!fs.existsSync(config.pathToRoot)) {
+  logger.error('Invalid directory: %s.', config.pathToRoot)
+  return
 }
 
-function begin() {
-  if(!fs.existsSync(buildDirectory)) {
-    logger.error("Please build your project first or run solidoc with recompilation on.");
-    return;
+const generateReadMe = (contract, contents) => {
+  if(contract.contractName === config.rootContract) {
+    readMe.set(contents, config.readMe)
+  }
+}
+
+function begin () {
+  if (!fs.existsSync(buildDirectory)) {
+    logger.error('Please build your project first or run solidoc with recompilation on.')
+    return
   }
 
-  if(!fs.existsSync(config.outputPath)) {
-    logger.info("Create the directory for the output path: %s.");
-    fs.mkdirSync(config.outputPath);
+  if (!fs.existsSync(config.outputPath)) {
+    logger.info('Create the directory for the output path: %s.')
+    fs.mkdirSync(config.outputPath)
   }
 
-  const contracts = parser.parse(buildDirectory);
-  generator.serialize(contracts, config.outputPath);
+  const contracts = parser.parse(buildDirectory)
+  generator.serialize(contracts, config.outputPath, generateReadMe)
 }
 
-if(!config.noCompilation) {
-  fs.removeSync(buildDirectory);
+if (!config.noCompilation) {
+  fs.removeSync(buildDirectory)
 
-  logger.info("Removed %s.", buildDirectory);
-  compiler.compile(config.pathToRoot, begin);
-  return;
+  logger.info('Removed %s.', buildDirectory)
+  compiler.compile(config.pathToRoot, begin)
+  return
 }
 
-begin();
+begin()
